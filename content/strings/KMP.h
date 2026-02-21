@@ -1,28 +1,30 @@
 /**
- * Author: Johan Sannemo
- * Date: 2016-12-15
- * License: CC0
- * Description: pi[x] computes the length of the longest prefix of s that ends at x,
- * other than s[0...x] itself (abacaba -> 0010123).
- * Can be used to find all occurrences of a string.
- * Time: O(n)
- * Status: Tested on kattis:stringmatching
- */
-#pragma once
+ * Author: Arthur Botelho
+ * Description: KMP automaton
+ * Time: O(N) build, O(1) query (amortized)
+ * Memory: O(N)
+ * Status: stress tested
+*/
 
-vi pi(const string& s) {
-	vi p(sz(s));
-	rep(i,1,sz(s)) {
-		int g = p[i-1];
-		while (g && s[i] != s[g]) g = p[g-1];
-		p[i] = g + (s[i] == s[g]);
+template<class S> struct KMP {
+	S p; int n; vector<int> nb;
+	KMP(S& ap) : p(ap), n(sz(p)), nb(n+1) {
+		for(int k = 1; k < n; k++) nb[k+1] = nxt(nb[k], p[k]);
 	}
-	return p;
-}
+	
+	int nxt(int i, auto c){
+		for(; i; i = nb[i])if (i < n and p[i]==c)return i+1;
+		return p[0]==c;
+	}
+};
 
-vi match(const string& s, const string& pat) {
-	vi p = pi(pat + '\0' + s), res;
-	rep(i,sz(p)-sz(s),sz(p))
-		if (p[i] == sz(pat)) res.push_back(i - 2 * sz(pat));
-	return res;
-}
+/* DFA
+	vector<vector<int>> dfa(n+1, vector<int>(26));
+    void build_dfa(){
+        dfa[0][P[0]] = 1; //only way to advance at 0
+        for(int k = 1; k <= n; k++)
+            for(int c = 0; c < 26; c++)
+                if (k < n and P[k] == 'a'+c) dfa[k][c] = k+1;
+                else dfa[k][c] = dfa[neighbor[k]][c];
+    }
+*/
