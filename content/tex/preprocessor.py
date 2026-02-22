@@ -88,7 +88,7 @@ def add_curly_braces_hash(source):
                     begin = braces_stack[-1]
                     if idx != begin:
                         s = "\n".join(lines[begin:idx+1])
-                        hsh_lines[begin] += " // %s" % (hash_fn(s),)
+                        hsh_lines[idx] += " // %s" % (hash_fn(s),)
                     braces_stack.pop()
 
     hsh_source = "\n".join(hsh_lines)
