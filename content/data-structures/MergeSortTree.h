@@ -30,17 +30,16 @@ struct MGST{
 		if (it == t[k]+l)return 0;
 		else return *prev(it);
 	}
-	 
-	T lb(int x, int l, int r){ //biggest <= x in [l, r]
+	T lb(T x, int l, int r){ //biggest <= x in [l, r]
 		T ans = 0; r++;
 		for(int k = 0; l < r; k++){
 			if ((l>>k)&1){
 				ans = max(ans, query_helper(x, k, l));
-				l += 1<<h;
+				l += 1<<k;
 			}
 			if ((r>>k)&1){
 				r -= 1<<k;
-				ans = max(ans, query_helper(x, k, l));
+				ans = max(ans, query_helper(x, k, r));
 			}
 		}
 		return ans;

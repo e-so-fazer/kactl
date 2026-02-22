@@ -7,8 +7,8 @@
  * Status: stress-tested
  */
 		
-template<class S>
-struct SpTable{using T = typename S::T;
+template<class S> struct SpTable{
+	using T = typename S::T;
 	int n; vector<vector<T>> tab;
 	int lg(signed x){return __builtin_clz(1)-__builtin_clz(x);}
 	SpTable(vector<T> v):n(sz(v)),tab(1+lg(n),vector<T>(n,S::id)){
@@ -20,10 +20,4 @@ struct SpTable{using T = typename S::T;
 		int k = lg(++r-l);
 		return S::op(tab[k][l], tab[k][r-(1<<k)]);
 	}
-};
-
-struct MinimumMonoid{
-	using T = int;
-	static constexpr T id = oo;
-	static T op(T a, T b){return min(a,b);}
 };

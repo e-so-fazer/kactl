@@ -1,10 +1,6 @@
 /**
- * Author: Simon Lindholm
- * Date: 2019-12-28
- * License: CC0
- * Source: https://github.com/hoke-t/tamu-kactl/blob/master/content/data-structures/MoQueries.h
- * Description: Answer interval or tree path queries by finding an approximate TSP through the queries,
- * and moving from one query to the next by adding/removing points at the ends.
+ * Author: Simon Lindholm and Arthur Botelho
+ * Description: Answer interval or tree path queries. Includes interval version without deletion.
  * If values are on tree edges, change \texttt{step} to add/remove the edge $(a, c)$ and remove the initial \texttt{add} call (but keep \texttt{in}).
  * Time: O(N \sqrt Q)
  * Status: stress-tested
@@ -59,4 +55,31 @@ vi moTree(vector<array<int, 2>> Q, vector<vi>& ed, int root=0){
 		if (end) res[qi] = calc();
 	}
 	return res;
+}
+
+vector mo_no_deletion(vector<pii>& qs, int n){
+	int q = sz(qs), sq = (int)sqrt(q)+1, blk = (n+sq+1)/sq;
+	vector<vi> o((n+blk-1)/blk);
+	rep(i,0,q)o[qs[i].first/blk].pb(i);
+	for(auto& vq : o)sort(all(vq), [&](int i, int j){return qs[i].second < qs[j].second;});
+	vector<int> ans(q);
+	rep(i,0,sz(o)){
+		auto& vq = o[i];
+		int l = blk*i + blk, r = l-1;
+		// prepare to answer queries
+		for(int qi : vq){
+			auto [ql, qr] = qs[qi];
+			if (qr <= l){ //if it does not extrapolate
+				rep(j,ql,qr+1)add(j, 1); //solving manually
+				continue;
+			}
+			while(r < qr)add(++r, 1);
+			int ml = l; //we will move l manually
+			// prepare checkpoint
+			while(ml > ql)add(--ml, 0);
+			ans[qi] = calc();
+			// revert checkpoint: discard changes made by moving l
+		}
+	}
+	return ans;
 }
