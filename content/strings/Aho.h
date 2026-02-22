@@ -6,21 +6,14 @@
  * Status: not yet tested
 */
 
+#define vvi vector<vi>
 struct Aho {
 	int n=1, si; char in;
 	vvi tran, nxt;
 	vi lnk, term, h;
- 
-	// ain= initial alphabet letter, asi = alphabet size
-	Aho(char ain='a', int asi=26) {
-		in = ain;
-		si = asi;
-		tran.eb(si,-1);
-		term.pb(0);
-	}
- 
+	Aho(char ain='a', int asi=26) : in(ain), si(asi) { tran.eb(si,-1); term.pb(0); }
 	void add(string& s) {
-		int cur=0;
+		int cur=0; 
 		rep(i,0,s.size()) {
 			int& nxt= tran[cur][s[i]-in];
 			if (nxt != -1) cur=nxt;
@@ -28,14 +21,11 @@ struct Aho {
 		}
 		term[cur]+=1;
 	}
- 
 	void init() {
 		lnk.assign(n,0);
 		nxt.assign(n, vi(si));
 		h.assign(n,0);
- 
-		queue<int> q;
-		q.push(0);
+		queue<int> q; q.push(0);
 		while (!q.empty()) {
 			int a=q.front(); q.pop();
 			rep(c,0,si) {
