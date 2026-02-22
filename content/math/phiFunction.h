@@ -3,8 +3,7 @@
  * Date: 2009-09-25
  * License: CC0
  * Source: http://en.wikipedia.org/wiki/Euler's_totient_function
- * Description: \emph{Euler's $\phi$} function up to LIM.
- * Facts: $\sum_{d|n} \phi(d) = n$, $\sum_{1\leq k \leq n, \gcd(k,n)=1} k = n \phi(n)/2, n>1$
+ * Description: \emph{Euler's $\phi$} function up to LIM. Note that $\sum_{d|n} \phi(d) = n$, $\sum_{1\leq k \leq n, \gcd(k,n)=1} k = n \phi(n)/2, n>1$
  * Time: O(n \log \log n))
  * Status: Tested
  */
