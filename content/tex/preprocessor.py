@@ -67,6 +67,33 @@ def find_start_comment(source, start=None):
 
     return first
 
+def hash_fn(source):
+    hash_script = 'hash'
+    p = subprocess.Popen(['sh', 'content/contest/%s.sh' % hash_script], stdin=subprocess.PIPE, stdout=subprocess.PIPE, encoding="utf-8")
+    hsh, _ = p.communicate(source)
+    hsh = hsh.split(None, 1)[0]
+    return hsh
+
+def add_curly_braces_hash(source):
+    braces_stack = []
+    lines = source.split("\n")
+    hsh_lines = lines[::]
+
+    for idx in range(len(lines)):
+        for c in lines[idx]:
+            if c == "{":
+                braces_stack.append(idx)
+            elif c == "}":
+                if len(braces_stack) > 0:
+                    begin = braces_stack[-1]
+                    if idx != begin:
+                        s = "\n".join(lines[begin:idx+1])
+                        hsh_lines[begin] += " // %s" % (hash_fn(s),)
+                    braces_stack.pop()
+
+    hsh_source = "\n".join(hsh_lines)
+    return hsh_source
+
 def processwithcomments(caption, instream, outstream, listingslang):
     knowncommands = ['Author', 'Date', 'Description', 'Source', 'Time', 'Memory', 'License', 'Status', 'Usage', 'Details']
     requiredcommands = ['Author', 'Description']
@@ -146,11 +173,9 @@ def processwithcomments(caption, instream, outstream, listingslang):
     nsource = nsource.strip()
 
     if listingslang in ['C++', 'Java']:
-        hash_script = 'hash'
-        p = subprocess.Popen(['sh', 'content/contest/%s.sh' % hash_script], stdin=subprocess.PIPE, stdout=subprocess.PIPE, encoding="utf-8")
-        hsh, _ = p.communicate(nsource)
-        hsh = hsh.split(None, 1)[0]
+        hsh = hash_fn(nsource)
         hsh = hsh + ', '
+        nsource = add_curly_braces_hash(nsource)
     else:
         hsh = ''
     # Produce output
