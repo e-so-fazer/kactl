@@ -1,6 +1,6 @@
 /**
  * Author: Ruan Petrus
- * Description: String hashing (multiple mods and 2^32)
+ * Description: String hashing (multiple mods and $2^{32}$)
  * Time: O(1) query, O(n) build
  * Memory: O(n)
  * Status: not yet tested
