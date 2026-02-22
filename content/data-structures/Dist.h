@@ -6,7 +6,8 @@
  * Memory: O(N \log N)
  * Status: not tested
  */
-		
+
+#define repinv(i, a, b) for(int i = (a); i >= (b); i--)
 template<class S> struct DiST{ 
 	using T = typename S::T;
 	int n, h; vector<vector<T>> t;

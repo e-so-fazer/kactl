@@ -315,7 +315,7 @@ class MaximumMatching {
     int contract_count_, outer_id_;
 };
 using Edge = MaximumMatching::Edge;
-int main() { // Graph of Love problem
+void example() { // Graph of Love problem
     int n; cin >> n;
     vector<Edge> edges(n, {0, 0});
     for (int i = 1, j; i <= n; i++)cin >> j, edges[i-1] = {i, j};

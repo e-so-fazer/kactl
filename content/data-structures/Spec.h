@@ -38,7 +38,7 @@ struct LazySpecArthur { //set add sum
 		if (t2)return upd;
 		else return {t1, x1+x2};
 	}
-
+};
 
 struct node{int max1,max2,maxc; ll sum;};
 struct BeatsSpec{ //chmin sum
