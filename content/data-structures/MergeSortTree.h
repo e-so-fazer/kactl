@@ -6,8 +6,7 @@
  * Status: not tested
  */
 
-template<class T>
-struct MGST{
+template<class T> struct MGST{
 	int n, h; vector<vector<T>> t;
 	int lg(int x){return __builtin_clz(1)-__builtin_clz(x);}
 	MGST(vector<T> v): n(sz(v)), h(lg(n)){
