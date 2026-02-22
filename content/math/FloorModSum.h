@@ -3,7 +3,7 @@
  * Date: 2015-06-23
  * License: CC0
  * Source: own work
- * Description: Sums of mod'ed arithmetic progressions.
+ * Description: Floor sum and Mod sum.
  *
  * \texttt{modsum(to, c, k, m)} = $\sum_{i=0}^{\mathrm{to}-1}{(ki+c) \% m}$.
  * \texttt{divsum} is similar but for floored division.

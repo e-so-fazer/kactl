@@ -1,58 +1,57 @@
 \chapter{Math}
 
-\kactlimport{multinomial.h}
+\section{Misc}
 
-\section{Polynomials and recurrences}
+\subsection{Combinatorics}
+  \kactlimport{multinomial.h}
+  \kactlimport{Combinatorics.h}
+
+\subsection{Polynomial Calculus}
   \kactlimport{Polynomial.h}
   \kactlimport{PolyRoots.h}
   \kactlimport{PolyInterpolate.h}
+
+\subsection{Recurrences and Sums}
   \kactlimport{BerlekampMassey.h}
   \kactlimport{LinearRecurrence.h}
-  \kactlimport{FloorSum.h}
+  \kactlimport{FloorModSum.h}
 
 \section{Optimization}
+  \kactlimport{FracBinarySearch.h}
   \kactlimport{GoldenSectionSearch.h}
   \kactlimport{HillClimbing.h}
   \kactlimport{Integrate.h}
   \kactlimport{IntegrateAdaptive.h}
   \kactlimport{Simplex.h}
+  \kactlimport{ContinuedFractions.h}
 
 \section{Matrices}
   \kactlimport{Determinant.h}
   \kactlimport{IntDeterminant.h}
+  \kactlimport{MatrixInverse.h}
   \kactlimport{SolveLinear.h}
   \kactlimport{SolveLinear2.h}
   \kactlimport{SolveLinearBinary.h}
-  \kactlimport{MatrixInverse.h}
   \kactlimport{Tridiagonal.h}
 
-\section{Fourier transforms}
+\section{Convolutions}
 	\kactlimport{FastFourierTransform.h}
 	\kactlimport{FastFourierTransformMod.h}
 	\kactlimport{NumberTheoreticTransform.h}
 	\kactlimport{FastSubsetTransform.h}
 
-\section{Modular arithmetic}
-	\kactlimport{ModularArithmetic.h}
-	\kactlimport{ModInverse.h}
-	\kactlimport{ModPow.h}
-	\kactlimport{ModLog.h}
-	\kactlimport{ModSum.h}
-	\kactlimport{ModMulLL.h}
-	\kactlimport{ModSqrt.h}
-	\kactlimport{Combinatorics.h}
+\section{Number Theory}
 
-\section{Primality}
+\subsection{Modular Arithmetic}
+	\kactlimport{CRT.h}
+	\kactlimport{ModPow.h}
+	\kactlimport{ModMulLL.h}
+	\kactlimport{ModLog.h}
+	\kactlimport{ModSqrt.h}
+
+\subsection{Primality and Divisibility}
 	\kactlimport{FastEratosthenes.h}
 	\kactlimport{MillerRabin.h}
-	\kactlimport{Factor.h}
-
-\section{Divisibility}
+	\kactlimport{PollardRho.h}
 	\kactlimport{euclid.h}
-	% \kactlimport{Euclid.java}
-	\kactlimport{CRT.h}
 	\kactlimport{phiFunction.h}
-
-\section{Fractions}
-	\kactlimport{ContinuedFractions.h}
-	\kactlimport{FracBinarySearch.h}
