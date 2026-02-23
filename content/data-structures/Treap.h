@@ -1,8 +1,9 @@
 /**
- * Author: someone on Codeforces
- * Date: 2017-03-14
+ * Author: duduFreire/kctl
+ * Date: 2026-02-23
  * Source: folklore
- * Description: Lazy treap.
+ * Description: Lazy treap. Its Spec is the same as LazySpec, except that update has the signature
+ * update(K f, int n, S a), where n represents the range size.
  * Time: $O(\log N)$
  * Status: tested on Range Updates and Sums (CSES)
  */
