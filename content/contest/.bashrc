@@ -7,6 +7,7 @@ fcpp() {
 }
 
 testio() {
+    dcpp "$1"
     for inf in in"$1"*; do
         local suffix="${inf#in$1}"
         local outf="out$1$suffix"
