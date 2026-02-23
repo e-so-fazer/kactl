@@ -1,14 +1,14 @@
 /**
  * Author: Ruan Petrus
- * Date: 02-23-2026
+ * Date: 2026-02-23
+ * License: CC0
+ * Source: Folklore
  * Description: Finds all biconnected components in an undirected graph.
  *  In a biconnected component there
- *  are at least two internally disjoint paths between any two nodes (a cycle
- *  exists through them). Note that a node can be in several components. 
- *  Every edge is in a single component. You can also call build_tree to build the tree
- * Usage:
- *  Populate g and edges
- *  bicomps()
+ *  are at least two internally disjoint paths between any two nodes a cycle
+ *  exists through them. Note that a node can be in several components. 
+ *  Every edge is in a single component. Nodes without edges will
+ *  not be in any components
  * Time: O(E + V)
  * Status: tested in yosup
  */
