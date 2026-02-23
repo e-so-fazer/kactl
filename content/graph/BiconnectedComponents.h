@@ -1,53 +1,69 @@
 /**
- * Author: Simon Lindholm
- * Date: 2017-04-17
- * License: CC0
- * Source: folklore
- * Description: Finds all biconnected components in an undirected graph, and
- *  runs a callback for the edges in each. In a biconnected component there
+ * Author: Ruan Petrus
+ * Date: 02-23-2026
+ * Description: Finds all biconnected components in an undirected graph.
+ *  In a biconnected component there
  *  are at least two internally disjoint paths between any two nodes (a cycle
- *  exists through them). Note that a node can be in several components. An
- *  edge which is not in a component is a bridge, i.e., not part of any cycle.
+ *  exists through them). Note that a node can be in several components. 
+ *  Every edge is in a single component. You can also call build_tree to build the tree
  * Usage:
- *  int eid = 0; ed.resize(N);
- *  for each edge (a,b) {
- *    ed[a].emplace_back(b, eid);
- *    ed[b].emplace_back(a, eid++); }
- *  bicomps([\&](const vi\& edgelist) {...});
+ *  Populate g and edges
+ *  bicomps()
  * Time: O(E + V)
- * Status: tested during MIPT ICPC Workshop 2017
+ * Status: tested in yosup
  */
 #pragma once
 
-vi num, st;
-vector<vector<pii>> ed;
-int Time;
-template<class F>
-int dfs(int at, int par, F& f) {
-	int me = num[at] = ++Time, top = me;
-	for (auto [y, e] : ed[at]) if (e != par) {
-		if (num[y]) {
-			top = min(top, num[y]);
-			if (num[y] < me)
-				st.push_back(e);
-		} else {
+vector<pair<int, int>> edges; // edges
+vector<vector<pair<int, int>>> g; // [b, edge idx]
+vi tin, st, art;
+int dfstime = 0;
+vector<vi> bcc;
+
+int dfs(int a, int p) {
+	int top = tin[a] = ++dfstime;
+	bool child = (p != -1);
+	for (auto [b, e]: g[a]) {
+		if (tin[b]) {
+			top = min(top, tin[b]);
+			if (tin[b] < tin[a]) st.pb(e);
+		}
+		else {
 			int si = sz(st);
-			int up = dfs(y, e, f);
+			int up = dfs(b, e);
 			top = min(top, up);
-			if (up == me) {
-				st.push_back(e);
-				f(vi(st.begin() + si, st.end()));
+			if (up > tin[a]) { /*e is a bridge */}
+			if (up >= tin[a]) {
+				st.pb(e);
+				bcc.eb(st.begin() + si, st.end());
 				st.resize(si);
+				art[a] += child;
+				child = true;
 			}
-			else if (up < me) st.push_back(e);
-			else { /* e is a bridge */ }
+			else if (up < tin[a]) st.pb(e);
 		}
 	}
 	return top;
 }
 
-template<class F>
-void bicomps(F f) {
-	num.assign(sz(ed), 0);
-	rep(i,0,sz(ed)) if (!num[i]) dfs(i, -1, f);
+void bicomps() {
+	int n = sz(g);
+	tin.assign(n, 0), art.assign(n, 0);
+	rep(i,0,n) if (!tin[i]) dfs(i, -1);
+}
+
+vi comp;
+vector<vi> tree;
+void build_tree() { // Optional
+	int n = sz(g);
+	comp.resize(n), tree.resize(n + sz(bcc));
+	rep(i, 0, sz(bcc)) {
+		for (int eid: bcc[i]) {
+			auto [a, b] = edges[eid];
+			if (art[a] && (empty(tree[a]) || tree[a].back() != n+i)) tree[a].pb(n+i), tree[n+i].pb(a);
+			if (art[b] && (empty(tree[b]) || tree[b].back() != n+i)) tree[b].pb(n+i), tree[n+i].pb(b);
+			comp[a] = comp[b] = n + i;
+		}
+	}
+	rep(i, 0, n) if (art[i]) comp[i] = i;
 }

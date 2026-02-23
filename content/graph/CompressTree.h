@@ -13,6 +13,10 @@
 #pragma once
 
 #include "LCA.h"
+struct LCA {
+  vi time;
+  int lca(int a, int b) { return -1; }
+};
 
 typedef vector<pair<int, int>> vpi;
 vpi compressTree(LCA& lca, const vi& subset) {
