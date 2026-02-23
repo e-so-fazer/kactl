@@ -2,64 +2,63 @@
  * Author: someone on Codeforces
  * Date: 2017-03-14
  * Source: folklore
- * Description: A short self-balancing tree. It acts as a
- *  sequential container with log-time splits/joins, and
- *  is easy to augment with additional data.
+ * Description: Lazy treap.
  * Time: $O(\log N)$
- * Status: stress-tested
+ * Status: tested on Range Updates and Sums (CSES)
  */
 #pragma once
 
-struct Node {
-	Node *l = 0, *r = 0;
-	int val, y, c = 1;
-	Node(int val) : val(val), y(rand()) {}
-	void recalc();
+#define TT template<typename S>
+#define NN node<S>*
+mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+TT
+struct node {
+	node *l=0, *r=0;	
+	int y, c=1;
+	S::S val, acc;
+	S::K lz;
+	bool hlz=0;
+	node(S::S aval) :  y(uniform_int_distribution<int>(0,(int)1e9)(rng)), val(aval), acc(aval) {}
+	void rc();
 };
-
-int cnt(Node* n) { return n ? n->c : 0; }
-void Node::recalc() { c = cnt(l) + cnt(r) + 1; }
-
-template<class F> void each(Node* n, F f) {
-	if (n) { each(n->l, f); f(n->val); each(n->r, f); }
+TT
+int cnt(S n) {return n ? n-> c : 0;}
+TT
+void prop(NN t) {
+	if (!t or !t->hlz) return;	
+	t->hlz=0;
+	t->val = S::update(t->lz, 1, t->val);
+	t->acc = S::update(t->lz, t->c, t->acc);
+	if (t->l) t->l->lz = t->l->hlz ? S::compose(t->l->lz, t->lz) : t->lz, t->l->hlz=1;
+	if (t->r) t->r->lz = t->r->hlz ? S::compose(t->r->lz, t->lz) : t->lz, t->r->hlz=1;
 }
-
-pair<Node*, Node*> split(Node* n, int k) {
-	if (!n) return {};
-	if (cnt(n->l) >= k) { // "n->val >= k" for lower_bound(k)
-		auto [L,R] = split(n->l, k);
-		n->l = R;
-		n->recalc();
-		return {L, n};
-	} else {
-		auto [L,R] = split(n->r,k - cnt(n->l) - 1); // and just "k"
-		n->r = L;
-		n->recalc();
-		return {n, R};
+TT
+void node<S>::rc() {
+	c = cnt(l) + cnt(r) + 1;
+	prop(l); prop(r);
+	acc = S::op(S::op(l ? l->acc : S::id(), val), r ? r->acc : S::id());
+}
+TT
+pair<NN,NN> split(NN t, int k) {
+	if (k == 0) return {0, t};
+	if (cnt(t->l) >= k) {
+		prop(t->l);
+		auto [l, r] = split(t->l, k);
+		t->l = r;
+		t->rc();
+		return {l, t};
 	}
+	prop(t->r);
+	auto [l,r] = split(t->r, k - cnt(t->l) - 1);
+	t->r = l;
+	t->rc();
+	return {t, r};
 }
-
-Node* merge(Node* l, Node* r) {
+TT
+auto merge(NN l, NN r) {
 	if (!l) return r;
 	if (!r) return l;
-	if (l->y > r->y) {
-		l->r = merge(l->r, r);
-		return l->recalc(), l;
-	} else {
-		r->l = merge(l, r->l);
-		return r->recalc(), r;
-	}
+	if (l->y < r->y) return prop(l->r), l->r = merge(l->r, r), l->rc(), l;
+	return prop(r->l), r->l = merge(l, r->l), r->rc(), r;
 }
 
-Node* ins(Node* t, Node* n, int pos) {
-	auto [l,r] = split(t, pos);
-	return merge(merge(l, n), r);
-}
-
-// Example application: move the range [l, r) to index k
-void move(Node*& t, int l, int r, int k) {
-	Node *a, *b, *c;
-	tie(a,b) = split(t, l); tie(b,c) = split(b, r - l);
-	if (k <= l) t = merge(ins(a, b, k), c);
-	else t = merge(a, ins(c, b, k - r));
-}
