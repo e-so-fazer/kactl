@@ -3,8 +3,8 @@
  * Date: 2026-24-02
  * License: CC0
  * Source: https://codeforces.com/blog/entry/53170, https://github.com/bqi343/USACO/blob/master/Implementations/content/graphs%20(12)/Trees%20(10)/HLD%20(10.3).h
- * Description: Does the same thing as a LazySegment tree, but with an extra log factor to the complexity. VAL_EDGES
- * determines if the values are stored in edges. If so, store the value of each edge on its child verted.
+ * Description: Does the same thing as a LazySegment tree, but on a tree and with an extra log factor to the complexity. VAL_EDGES
+ * determines if the values are stored in edges. If so, store the value of each edge on its child vertex.
  * Time: O((\log N)^2) for range operations, O(log(n)) for point operations
  * Status: AC on Police Hypothesis
  */
