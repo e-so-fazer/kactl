@@ -1,19 +1,7 @@
 \chapter{Various}
 
-\section{Intervals}
-	\kactlimport{IntervalContainer.h}
-	\kactlimport{IntervalCover.h}
-	\kactlimport{ConstantIntervals.h}
-
-\section{Misc. algorithms}
-	\kactlimport{TernarySearch.h}
-	\kactlimport{LIS.h}
-	\kactlimport{FastKnapsack.h}
-	\kactlimport{Submasks.h}
-
-\section{Dynamic programming}
-	\kactlimport{KnuthDP.h}
-	\kactlimport{DivideAndConquerDP.h}
+\section{Random}
+\kactlimport{RNG.h}
 
 \section{Debugging tricks}
 	\begin{itemize}
@@ -36,12 +24,5 @@
 		\begin{itemize}
 			\item \lstinline{#pragma GCC optimize ("Ofast")} will make GCC auto-vectorize loops and optimizes floating points better.
 			\item \lstinline{#pragma GCC target ("avx2")} can double performance of vectorized code, but causes crashes on old machines.
-			\item \lstinline{#pragma GCC optimize ("trapv")} kills the program on integer overflows (but is really slow).
+			\item \lstinline{#pragma GCC optimize ("bmi,bmi2,lzcnt,popcnt")} are good for bitsets.
 		\end{itemize}
-	\kactlimport{FastMod.h}
-	\kactlimport{FastInput.h}
-	\kactlimport{BumpAllocator.h}
-	\kactlimport{SmallPtr.h}
-	\kactlimport{BumpAllocatorSTL.h}
-	% \kactlimport{Unrolling.h}
-	\kactlimport{SIMD.h}
