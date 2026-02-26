@@ -8,14 +8,13 @@ teste() {
     done
 }
 # teste ./b btests
-brute() {
+stress() {
     for ((i=1; ; i++)) do
         echo "Test $i"
-
         $1 > i.txt
         $2 < i.txt > o1.txt
         $3 < i.txt > o2.txt
         diff -q o1.txt o2.txt
     done
 }
-# brute "python3 gen.py" ./main ./brute
+# stress "python3 gen.py" ./main ./brute
